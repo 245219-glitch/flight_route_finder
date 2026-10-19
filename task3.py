@@ -12,12 +12,15 @@ def path_cost(path):
 def ucs_cheapest_route(graph, start, goal):
     visited = []
     queue = [[(start, 0)]]
+    explored = 0
 
     while queue:
-        queue.sort(key=path_cost)      
+        queue.sort(key=path_cost)
         path = queue.pop(0)
         node = path[-1][0]
         route = [city for city, _ in path]
+
+        explored += 1
 
         print("Exploring:", route, "cost =", path_cost(path))
 
@@ -28,11 +31,13 @@ def ucs_cheapest_route(graph, start, goal):
         if node == goal:
             print("Cheapest route:", route)
             print("Total ticket cost:", path_cost(path))
+            print("Total routes explored:", explored)
             return route, path_cost(path)
 
         for neighbour, cost in graph.get(node, []):
             queue.append(path + [(neighbour, cost)])
 
     return None, None
+
 
 ucs_cheapest_route(flights, "Islamabad", "Quetta")
